@@ -7,7 +7,7 @@ const VillesList = () => {
   const [villes, setVilles] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/villes/").then((response) => {
+    axios.get("http://localhost:8081/api/villes/all").then((response) => {
       setVilles(response.data);
     });
   }, []);
@@ -15,22 +15,27 @@ const VillesList = () => {
   const handleEdit = (id) => {
     const newName = window.prompt("Enter the new name for this ville:");
     if (newName) {
-      axios.put(`/api/villes/update/id/${id}`, { nom: newName }).then(() => {
-        setVilles(
-          villes.map((ville) => {
-            if (ville.id === id) {
-              return { ...ville, nom: newName };
-            }
-            return ville;
-          })
-        );
-      });
+      axios
+        .put(`http://localhost:8081/api/villes/update`, {
+          id: id,
+          nom: newName,
+        })
+        .then(() => {
+          setVilles(
+            villes.map((ville) => {
+              if (ville.id === id) {
+                return { ...ville, nom: newName };
+              }
+              return ville;
+            })
+          );
+        });
     }
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this ville ?")) {
-      axios.delete(`/api/villes/delete/id/${id}`).then(() => {
+      axios.delete(`http://localhost:8081/api/villes/delete/${id}`).then(() => {
         setVilles(villes.filter((ville) => ville.id !== id));
       });
     }

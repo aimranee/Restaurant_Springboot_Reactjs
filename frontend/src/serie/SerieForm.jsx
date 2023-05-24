@@ -11,7 +11,7 @@ const SerieForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post("/api/series/save", { nom }).then(() => {
+    axios.post("http://localhost:8081/api/series/save", { nom }).then(() => {
       navigate("/series");
     });
   };

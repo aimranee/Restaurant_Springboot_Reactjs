@@ -11,9 +11,11 @@ const SpecialiteForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post("/api/specialite/save", { nom }).then(() => {
-      navigate("/speclist");
-    });
+    axios
+      .post("http://localhost:8081/api/specialites/save", { nom })
+      .then(() => {
+        navigate("/specialites");
+      });
   };
 
   return (

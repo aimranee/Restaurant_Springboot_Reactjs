@@ -11,7 +11,7 @@ const Villelist = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post("/api/villes/save", { nom }).then(() => {
+    axios.post("http://localhost:8081/api/villes/save", { nom }).then(() => {
       navigate("/villes");
     });
   };

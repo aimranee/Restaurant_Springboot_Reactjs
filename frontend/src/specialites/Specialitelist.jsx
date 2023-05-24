@@ -11,32 +11,45 @@ const SpecilaiteList = () => {
     const [specialities, setSpecialities] = useState([]);
   
     useEffect(() => {
-      axios.get("/api/specialite/all").then((response) => {
-        setSpecialities(response.data);
-      });
+      axios
+        .get("http://localhost:8081/api/specialites/all")
+        .then((response) => {
+          setSpecialities(response.data);
+        });
     }, []);
     
 
     const handleEdit = (id) => {
       const newName = window.prompt("Enter the new name for this specialite:");
       if (newName) {
-        axios.put(`/api/specialite/update/id/${id}`, {nom:newName }).then(() => {
-          setSpecialities(specialities.map((specialite) => {
-            if (specialite.id === id) {
-              return { ...specialite, nom: newName };
-            }
-            return specialite;
-          }));
-        });
+        axios
+          .put(`http://localhost:8081/api/specialites/update`, {
+            id: id,
+            nom: newName,
+          })
+          .then(() => {
+            setSpecialities(
+              specialities.map((specialite) => {
+                if (specialite.id === id) {
+                  return { ...specialite, nom: newName };
+                }
+                return specialite;
+              })
+            );
+          });
       }
     };
   
   
     const handleDelete = (id) => {
       if (window.confirm("Are you sure you want to delete this specalite?")) {
-        axios.delete(`/api/specialite/delete/id/${id}`).then(() => {
-          setSpecialities(specialities.filter((specialite) => specialite.id !== id));
-        });
+        axios
+          .delete(`http://localhost:8081/api/specialites/delete/${id}`)
+          .then(() => {
+            setSpecialities(
+              specialities.filter((specialite) => specialite.id !== id)
+            );
+          });
       }
     };
 
@@ -69,5 +82,5 @@ const SpecilaiteList = () => {
 </table>
  </div> );
 };
-export default SpecilaiteList;
 
+export default SpecilaiteList;

@@ -1,58 +1,50 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-
-
-
 const ReastauForm = () => {
   const [zones, setZones] = useState([]);
   const [villes, setVilles] = useState([]);
   const [latitude, setLatitude] = useState([]);
   const [longitude, setLongitude] = useState([]);
-  //const [users, setUsers] = useState([]);
   const [adresse, setAdresses] = useState([]);
   const [series, setSeries] = useState([]);
-  const [rank, setRanks] = useState("1");
+  const [rang, setRangs] = useState("1");
   const [nom, setNom] = useState([]);
   const [jour_open, setJourOpen] = useState(["Lundi"]);
   const [jour_close, setJourClose] = useState(["Lundi"]);
-  const concatenatedString = "De "+ jour_open.concat(" A "+jour_close );
-  const [selectedVilleId, setSelectedVilleNom] = useState("");
+  const concatenatedString = "De " + jour_open.concat(" A " + jour_close);
+  const [selectedVilleId, setSelectedVilleId] = useState("");
   const [selectedZoneId, setSelectedZoneId] = useState("");
   const [selectedSerieId, setSelectedSerieId] = useState("");
   const [timeOpen, setTimeOpen] = useState("2023-05-04T11:20:00.000Z");
   const [timeClose, setTimeClose] = useState("2023-05-04T11:20:00.000Z");
 
-
-
-
-  const handleRankChange = (event) => {
-    setRanks(event.target.value);
-  }; 
+  const handleRangChange = (event) => {
+    setRangs(event.target.value);
+  };
   const handleZoneChange = (event) => {
     setSelectedZoneId(event.target.value);
-  }; 
+  };
   const handleSerieChange = (event) => {
     setSelectedSerieId(event.target.value);
-  }; 
+  };
 
   const handleJourChange = (event) => {
-    if(event.target.nom===jour_open){
+    if (event.target.nom === jour_open) {
       setJourOpen(event.target.value);
-    }else setJourClose(event.target.value)
-    
-  }; 
+    } else setJourClose(event.target.value);
+  };
 
   const handleJourOpenChange = (event) => {
     setJourOpen(event.target.value);
   };
-  
+
   const handleJourCloseChange = (event) => {
     setJourClose(event.target.value);
   };
-  
 
   const handleTimeOpen = (event) => {
+    console.log("timeeeeeee = " + event.target.value);
     setTimeOpen(event.target.value);
   };
   const handleTimeClose = (event) => {
@@ -60,97 +52,147 @@ const ReastauForm = () => {
   };
 
   useEffect(() => {
-    axios.get("/api/villes/").then((response) => {
+    axios.get("http://localhost:8081/api/villes/all").then((response) => {
       setVilles(response.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get("/api/series/all").then((response) => {
+    axios.get("http://localhost:8081/api/series/all").then((response) => {
       setSeries(response.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get("/api/user/all").then((response) => {
-      setSeries(response.data);
-    });
+    // axios.get("http://localhost:8081/api/user/all").then((response) => {
+    //   setSeries(response.data);
+    // });
   }, []);
 
   const handleVilleChange = (event) => {
-    const villeNom = event.target.value;
-    setSelectedVilleNom(villeNom);
-    axios.get(`/api/zones/ville/zones/${villeNom}`).then((response) => {
-      setZones(response.data);
-    });
+    const villeId = event.target.value;
+    setSelectedVilleId(villeId);
+    axios
+      .get(`http://localhost:8081/api/zones/ville/${villeId}`)
+      .then((response) => setZones(response.data));
+    //   (response) => {
+    //   console.log("dataaaaa : " + response.data);
+    //   setZones(response.data);
+    // });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post("/api/restaus/save", {
-      nom : nom,
-      adress:adresse,
-      rank:rank,
-      hopen: timeOpen,
-      hclose:timeClose,
-      lang:longitude,
-      lat:latitude,
-      jourOuverture:concatenatedString ,
-      serie: {
-        id: selectedSerieId
-      },
-      zone: {
-        id: selectedZoneId
-      }
-        
-    }).then((response) => {
+    axios
+      .post("http://localhost:8081/api/restaurants/save", {
+        nom: nom,
+        adresse: adresse,
+        rang: rang,
+        open: timeOpen + ":00",
+        close: timeClose + ":00",
+        longtitude: longitude,
+        lattitude: latitude,
+        Weekend: concatenatedString,
+        serie: {
+          id: selectedSerieId,
+        },
+        zone: {
+          id: selectedZoneId,
+        },
+      })
+      .then((response) => {
         setNom("");
         setAdresses("");
-        setRanks("");
+        setRangs("");
         setLongitude("");
         setLatitude("");
         setTimeOpen("");
         setTimeClose("");
         setSelectedZoneId("");
         selectedSerieId("");
-        setSelectedVilleNom("");
-    });
-};
+        setSelectedVilleId("");
+      });
+  };
 
   return (
     <div>
-
       <h2>Creation d'une Restaurant</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <input type="text" placeholder="Nom du restaurant" className="form-control" id="nom" value={nom} onChange={(event) => setNom(event.target.value)}/>
+          <input
+            type="text"
+            placeholder="Nom du restaurant"
+            className="form-control"
+            id="nom"
+            value={nom}
+            onChange={(event) => setNom(event.target.value)}
+          />
         </div>
-        <br/>
+        <br />
         <div className="form-group">
-          <input type="text" placeholder="Adresse"  className="form-control" id="adresse" value={adresse} onChange={(event) => setAdresses(event.target.value)}/>
+          <input
+            type="text"
+            placeholder="Adresse"
+            className="form-control"
+            id="adresse"
+            value={adresse}
+            onChange={(event) => setAdresses(event.target.value)}
+          />
         </div>
-        <br/>
+        <br />
         <div className="form-group">
-          <input type="number" className="form-control" placeholder="Longitude" id="longitude" value={longitude} onChange={(event) => setLongitude(event.target.value)}/>
+          <input
+            type="number"
+            className="form-control"
+            placeholder="Longitude"
+            id="longitude"
+            value={longitude}
+            onChange={(event) => setLongitude(event.target.value)}
+          />
         </div>
-        <br/>
+        <br />
         <div className="form-group">
-          <input type="number" className="form-control" placeholder="Latitude" id="latitude" value={latitude} onChange={(event) => setLatitude(event.target.value)}/>
+          <input
+            type="number"
+            className="form-control"
+            placeholder="Latitude"
+            id="latitude"
+            value={latitude}
+            onChange={(event) => setLatitude(event.target.value)}
+          />
         </div>
-        <br/>
+        <br />
         <div className="form-group">
-        <label htmlFor="villeId">Select a Heure Open:</label>
-          <input type="time" className="form-control"  placeholder="Latitude" id="heur_close" value={timeOpen} onChange={handleTimeOpen}/>
+          <label htmlFor="villeId">Select a Heure Open:</label>
+          <input
+            type="time"
+            className="form-control"
+            placeholder="Latitude"
+            id="heur_close"
+            value={timeOpen}
+            onChange={handleTimeOpen}
+          />
         </div>
-        <br/>
+        <br />
         <div className="form-group">
-        <label htmlFor="villeId">Select a Heure Close:</label>
-          <input type="time" className="form-control" id="heur_close" value={timeClose} onChange={handleTimeClose}/>
+          <label htmlFor="villeId">Select a Heure Close:</label>
+          <input
+            type="time"
+            className="form-control"
+            id="heur_close"
+            value={timeClose}
+            onChange={handleTimeClose}
+          />
         </div>
-        <br/>
+        <br />
         <div className="form-group">
-          <label htmlFor="Rank">Select a Rank:</label>
-          <select className="form-control" id="rankId" value={rank} onChange={handleRankChange}>
+          <label htmlFor="Rang">Select a Rang:</label>
+          <select
+            className="form-control"
+            id="rangId"
+            value={rang}
+            onChange={handleRangChange}
+          >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -158,33 +200,50 @@ const ReastauForm = () => {
             <option value="5">5</option>
           </select>
         </div>
-        <br/> 
+        <br />
         <div className="form-group">
           <label htmlFor="jrouverture">Jours d'ouverture:</label>
-          <br/>
-          Du: <select nom="jour_open" id="jour_open" value={jour_open} onChange={handleJourOpenChange}>
-                <option value="Lundi">Lundi</option>
-                <option value="Mardi">Mardi</option>
-                <option value="Mercredi">Mercredi</option>
-                <option value="Jeudi">Jeudi</option>
-                <option value="Vendredi">Vendredi</option>
-                <option value="Samedi">Samedi</option>
-                <option value="Dimanche">Dimanche</option>
-            </select>
-          A : <select nom="jour_close" id="jour_close" value={jour_close} onChange={handleJourCloseChange}>
-                <option value="Lundi">Lundi</option>
-                <option value="Mardi">Mardi</option>
-                <option value="Mercredi">Mercredi</option>
-                <option value="Jeudi">Jeudi</option>
-                <option value="Vendredi">Vendredi</option>
-                <option value="Samedi">Samedi</option>
-                <option value="Dimanche">Dimanche</option>
-            </select>
+          <br />
+          Du:{" "}
+          <select
+            nom="jour_open"
+            id="jour_open"
+            value={jour_open}
+            onChange={handleJourOpenChange}
+          >
+            <option value="Lundi">Lundi</option>
+            <option value="Mardi">Mardi</option>
+            <option value="Mercredi">Mercredi</option>
+            <option value="Jeudi">Jeudi</option>
+            <option value="Vendredi">Vendredi</option>
+            <option value="Samedi">Samedi</option>
+            <option value="Dimanche">Dimanche</option>
+          </select>
+          A :{" "}
+          <select
+            nom="jour_close"
+            id="jour_close"
+            value={jour_close}
+            onChange={handleJourCloseChange}
+          >
+            <option value="Lundi">Lundi</option>
+            <option value="Mardi">Mardi</option>
+            <option value="Mercredi">Mercredi</option>
+            <option value="Jeudi">Jeudi</option>
+            <option value="Vendredi">Vendredi</option>
+            <option value="Samedi">Samedi</option>
+            <option value="Dimanche">Dimanche</option>
+          </select>
         </div>
-        <br/>
+        <br />
         <div className="form-group">
           <label htmlFor="villeId">Select a city:</label>
-          <select className="form-control" id="villeId" value={selectedVilleId} onChange={handleVilleChange}>
+          <select
+            className="form-control"
+            id="villeId"
+            value={selectedVilleId}
+            onChange={handleVilleChange}
+          >
             <option value="">All villes</option>
             {villes.map((ville) => (
               <option key={ville.id} value={ville.nom}>
@@ -193,10 +252,15 @@ const ReastauForm = () => {
             ))}
           </select>
         </div>
-        <br/>
+        <br />
         <div className="form-group">
           <label htmlFor="zoneId">Select a zone:</label>
-          <select className="form-control" id="zoneId" value={selectedZoneId} onChange={handleZoneChange} >
+          <select
+            className="form-control"
+            id="zoneId"
+            value={selectedZoneId}
+            onChange={handleZoneChange}
+          >
             <option value="">All zones</option>
             {zones.map((zone) => (
               <option key={zone.id} value={zone.id}>
@@ -207,7 +271,12 @@ const ReastauForm = () => {
         </div>
         <div className="form-group">
           <label htmlFor="serieId">Select a serie:</label>
-          <select className="form-control" id="serieId" value={selectedSerieId} onChange={handleSerieChange} >
+          <select
+            className="form-control"
+            id="serieId"
+            value={selectedSerieId}
+            onChange={handleSerieChange}
+          >
             <option value="">All series</option>
             {series.map((serie) => (
               <option key={serie.id} value={serie.id}>
@@ -216,11 +285,12 @@ const ReastauForm = () => {
             ))}
           </select>
         </div>
-        <br/>
-            <button type="submit" className="btn btn-primary">Add Restaurant</button>      
+        <br />
+        <button type="submit" className="btn btn-primary">
+          Add Restaurant
+        </button>
       </form>
     </div>
-    
   );
 };
 
