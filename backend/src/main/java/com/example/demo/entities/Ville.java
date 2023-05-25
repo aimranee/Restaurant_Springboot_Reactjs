@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,9 +17,11 @@ public class Ville {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+
 	private String nom;
 	
 	@OneToMany(mappedBy = "ville", fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List <Zone> zones;
 	
 	public int getId() {

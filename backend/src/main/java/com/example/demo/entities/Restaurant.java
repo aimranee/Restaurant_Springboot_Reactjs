@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,11 +23,16 @@ public class Restaurant {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	private String nom;
 	private String lattitude;
 	private String longtitude;
 	private String adresse;
-	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "HH:mm:ss")
+	@Temporal(TemporalType.TIME)
 	private Date close;
+	@JsonFormat(pattern = "HH:mm:ss")
+	@Temporal(TemporalType.TIME)
+	private Date open;
 	private int rang;
 	private String Weekend;
 	private String photo;
@@ -47,7 +53,15 @@ public class Restaurant {
 	private User user;
 	@ManyToOne
 	private Zone zone;
-	
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -123,6 +137,25 @@ public class Restaurant {
 	public void setSpecialites(List<Specialite> specialites) {
 		this.specialites = specialites;
 	}
-	
-	
+
+	public Date getOpen() {
+		return open;
+	}
+
+	public void setOpen(Date open) {
+		this.open = open;
+	}
+
+	public Restaurant(String nom, String lattitude, String longtitude, String adresse, Date close, Date open, int rang, String weekend, Serie serie, Zone zone) {
+		this.nom = nom;
+		this.lattitude = lattitude;
+		this.longtitude = longtitude;
+		this.adresse = adresse;
+		this.close = close;
+		this.open = open;
+		this.rang = rang;
+		this.Weekend = weekend;
+		this.serie = serie;
+		this.zone = zone;
+	}
 }

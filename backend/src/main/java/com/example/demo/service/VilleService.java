@@ -16,20 +16,19 @@ public class VilleService implements IDao<Ville> {
 	
 	@Override
 	public Ville save(Ville o) {
-		
-		return this.villeRepository.save(o);
+		return villeRepository.save(o);
 	}
 
 	@Override
 	public List<Ville> findAll() {
 		// TODO Auto-generated method stub
-		return this.villeRepository.findAll();
+		return villeRepository.findAll();
 	}
 
 	@Override
 	public Ville findById(int id) {
 		// TODO Auto-generated method stub
-		return this.villeRepository.findById(id);
+		return villeRepository.findById(id);
 	}
 
 	@Override
@@ -42,6 +41,7 @@ public class VilleService implements IDao<Ville> {
 		this.villeRepository.delete(o);
 		
 	}
-	
+
+
 
 }

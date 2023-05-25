@@ -3,13 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entities.Restaurant;
 import com.example.demo.entities.Ville;
@@ -17,6 +11,7 @@ import com.example.demo.entities.Zone;
 import com.example.demo.service.VilleService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/villes")
 public class VilleController {
 	@Autowired
@@ -68,14 +63,17 @@ public class VilleController {
 		return service.findById(Integer.parseInt(id));
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public void update(@RequestBody Ville o) {
 		service.update(o);
 	}
 
-	@DeleteMapping("/delete")
-	public void delete(@RequestBody Ville o) {
-		service.delete(o);
+	@DeleteMapping("/delete/{id}")
+	public void deleteVille(@PathVariable int id) {
+		Ville exist = service.findById(id);
+		if (exist != null) {
+			service.delete(exist);
+		}
 	}
 
 }

@@ -2,26 +2,28 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import com.example.demo.entities.Ville;
+import com.example.demo.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entities.Zone;
 import com.example.demo.service.ZoneService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/zones")
 public class ZoneController {
 	@Autowired
 	private ZoneService service;
+	@Autowired
+	private VilleService villeService;
 
-	@PostMapping("/save")
-	public Zone save(@RequestBody Zone o) {
+
+	@PostMapping("/save/{id}")
+	public Zone save(@PathVariable int id, @RequestBody Zone o) {
+		Ville v = villeService.findById(id);
+		o.setVille(v);
 		return service.save(o);
 	}
 
@@ -31,18 +33,24 @@ public class ZoneController {
 	}
 
 	@GetMapping("/find/{id}")
-	public Zone findById(@PathVariable String id) {
-		return service.findById(Integer.parseInt(id));
+	public Zone findById(@PathVariable int id) {
+		return service.findById(id);
 	}
-
-	@PostMapping("/update")
-	public void update(@RequestBody Zone o) {
-		service.update(o);
+	@PutMapping("/update/{id}")
+	public void update(@PathVariable int id, @RequestBody Zone o) {
+		Ville v = villeService.findById(id);
+		o.setVille(v);
+		service.save(o);
 	}
 
 	@DeleteMapping("/delete")
 	public void delete(@RequestBody Zone o) {
 		service.delete(o);
+	}
+
+	@GetMapping("/ville/{villeNom}")
+	public List<Zone> findByNom(@PathVariable String villeNom){
+		return service.findByNom(villeNom);
 	}
 
 }

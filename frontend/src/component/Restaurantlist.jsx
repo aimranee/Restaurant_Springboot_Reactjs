@@ -16,9 +16,7 @@ const RestaurantList = () => {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this restaurant ?")) {
       axios
-        .delete(`http://localhost:8081/api/restaurants/delete`, {
-          data: { id: id },
-        })
+        .delete(`http://localhost:8081/api/restaurants/delete/${id}`)
         .then(() => {
           setRestaurants(
             Restaurants.filter((restaurant) => restaurant.id !== id)

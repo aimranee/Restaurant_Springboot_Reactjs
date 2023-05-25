@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ReastauForm = () => {
   const [zones, setZones] = useState([]);
@@ -18,6 +19,7 @@ const ReastauForm = () => {
   const [selectedSerieId, setSelectedSerieId] = useState("");
   const [timeOpen, setTimeOpen] = useState("2023-05-04T11:20:00.000Z");
   const [timeClose, setTimeClose] = useState("2023-05-04T11:20:00.000Z");
+  const navigate = useNavigate();
 
   const handleRangChange = (event) => {
     setRangs(event.target.value);
@@ -111,6 +113,7 @@ const ReastauForm = () => {
         setSelectedZoneId("");
         selectedSerieId("");
         setSelectedVilleId("");
+        navigate("/restaurant");
       });
   };
 

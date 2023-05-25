@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ReastauUpdate = () => {
   const [restaurant, setRestaurant] = useState([]);
@@ -10,34 +11,55 @@ const ReastauUpdate = () => {
   const [longitude, setLongitude] = useState([]);
   const [adresse, setAdresses] = useState([]);
   const [series, setSeries] = useState([]);
-  const [rank, setRanks] = useState("1");
+  const [rang, setRangs] = useState("1");
   const [nom, setNom] = useState([]);
   const [jour_open, setJourOpen] = useState(["Lundi"]);
   const [jour_close, setJourClose] = useState(["Lundi"]);
   const concatenatedString = "De " + jour_open.concat(" A " + jour_close);
-  const [selectedVilleId, setSelectedVilleNom] = useState("");
+  const [selectedVilleId, setSelectedVilleId] = useState("");
+  const [selectedVilleName, setSelectedVilleName] = useState("");
   const [selectedZoneId, setSelectedZoneId] = useState("");
+  const [zone, setZone] = useState([]);
+  const [ville, setVille] = useState([]);
+  const [serie, setSerie] = useState([]);
+  const [selectedZoneName, setSelectedZoneName] = useState("");
   const [selectedSerieId, setSelectedSerieId] = useState("");
   const [timeOpen, setTimeOpen] = useState("2023-05-04T11:20:00.000Z");
   const [timeClose, setTimeClose] = useState("2023-05-04T11:20:00.000Z");
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadResto();
   }, []);
 
   const loadResto = async () => {
-    const result = await axios.get(`/api/restaus/restau/id/${id}`);
-    setRestaurant(result.data);
-    console.log(result.data);
+    const result = await axios.get(
+      `http://localhost:8081/api/restaurants/find/${id}`
+    );
+    setNom(result.data.nom);
+    setAdresses(result.data.adresse);
+    setRangs(result.data.rang);
+    setLongitude(result.data.longtitude);
+    setLatitude(result.data.lattitude);
+    setTimeOpen(result.data.open);
+    setTimeClose(result.data.close);
+    setZone(result.data.zone);
+    setSelectedSerieId(result.data.serie.id);
+    setSelectedZoneId(result.data.zone.id);
+    setVille(result.data.ville);
+    setSerie(result.data.serie);
+    // navigate("/restaurant");
   };
 
-  const handleRankChange = (event) => {
-    setRanks(event.target.value);
+  const handleRangChange = (event) => {
+    setRangs(event.target.value);
   };
+
   const handleZoneChange = (event) => {
     setSelectedZoneId(event.target.value);
   };
+
   const handleSerieChange = (event) => {
     setSelectedSerieId(event.target.value);
   };
@@ -45,6 +67,7 @@ const ReastauUpdate = () => {
   const handleJourOpenChange = (event) => {
     setJourOpen(event.target.value);
   };
+
   const handleJourCloseChange = (event) => {
     setJourClose(event.target.value);
   };
@@ -52,48 +75,52 @@ const ReastauUpdate = () => {
   const handleTimeOpen = (event) => {
     setTimeOpen(event.target.value);
   };
+
   const handleTimeClose = (event) => {
     setTimeClose(event.target.value);
   };
 
   useEffect(() => {
-    axios.get("/api/villes/all").then((response) => {
+    axios.get("http://localhost:8081/api/villes/all").then((response) => {
       setVilles(response.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get("/api/series/all").then((response) => {
+    axios.get("http://localhost:8081/api/series/all").then((response) => {
       setSeries(response.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get("/api/user/all").then((response) => {
-      setSeries(response.data);
-    });
+    // axios.get("/api/user/all").then((response) => {
+    //   setSeries(response.data);
+    // });
   }, []);
 
   const handleVilleChange = (event) => {
-    const villeNom = event.target.value;
-    setSelectedVilleNom(villeNom);
-    axios.get(`/api/zones/ville/zones/${villeNom}`).then((response) => {
-      setZones(response.data);
-    });
+    const villeId = event.target.value;
+    setSelectedVilleId(villeId);
+    axios
+      .get(`http://localhost:8081/api/zones/ville/zones/${villeId}`)
+      .then((response) => {
+        setZones(response.data);
+      });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/api/restaus/save", {
+      .put("http://localhost:8081/api/restaurants/update", {
+        id: 1,
         nom: nom,
-        adress: adresse,
-        rank: rank,
-        hopen: timeOpen,
-        hclose: timeClose,
-        lang: longitude,
-        lat: latitude,
-        jourOuverture: concatenatedString,
+        adresse: adresse,
+        rang: rang,
+        open: timeOpen + ":00",
+        close: timeClose + ":00",
+        longtitude: longitude,
+        lattitude: latitude,
+        Weekend: concatenatedString,
         serie: {
           id: selectedSerieId,
         },
@@ -104,14 +131,15 @@ const ReastauUpdate = () => {
       .then((response) => {
         setNom("");
         setAdresses("");
-        setRanks("");
+        setRangs("");
         setLongitude("");
         setLatitude("");
         setTimeOpen("");
         setTimeClose("");
         setSelectedZoneId("");
         selectedSerieId("");
-        setSelectedVilleNom("");
+        setSelectedVilleId("");
+        navigate("/restaurant");
       });
   };
 
@@ -125,7 +153,7 @@ const ReastauUpdate = () => {
             placeholder="Nom du restaurant"
             className="form-control"
             id="nom"
-            value={restaurant.nom}
+            value={nom}
             onChange={(event) => setNom(event.target.value)}
           />
         </div>
@@ -136,7 +164,7 @@ const ReastauUpdate = () => {
             placeholder="Adresse"
             className="form-control"
             id="adresse"
-            value={restaurant.adress}
+            value={adresse}
             onChange={(event) => setAdresses(event.target.value)}
           />
         </div>
@@ -147,8 +175,8 @@ const ReastauUpdate = () => {
             className="form-control"
             placeholder="Longitude"
             id="longitude"
-            value={restaurant.lang}
             onChange={(event) => setLongitude(event.target.value)}
+            value={longitude}
           />
         </div>
         <br />
@@ -158,8 +186,10 @@ const ReastauUpdate = () => {
             className="form-control"
             placeholder="Latitude"
             id="latitude"
-            value={restaurant.lat}
-            onChange={(event) => setLatitude(event.target.value)}
+            value={latitude}
+            onChange={(event) => {
+              setLatitude(event.target.value);
+            }}
           />
         </div>
         <br />
@@ -170,7 +200,7 @@ const ReastauUpdate = () => {
             className="form-control"
             placeholder="Latitude"
             id="heur_close"
-            value={restaurant.hopen}
+            value={timeOpen}
             onChange={handleTimeOpen}
           />
         </div>
@@ -181,18 +211,18 @@ const ReastauUpdate = () => {
             type="time"
             className="form-control"
             id="heur_close"
-            value={restaurant.hclose}
+            value={timeClose}
             onChange={handleTimeClose}
           />
         </div>
         <br />
         <div className="form-group">
-          <label htmlFor="Rank">Select a Rank:</label>
+          <label htmlFor="Rang">Select a Rang:</label>
           <select
             className="form-control"
-            id="rankId"
-            value={restaurant.rank}
-            onChange={handleRankChange}
+            id="rangId"
+            value={rang}
+            onChange={handleRangChange}
           >
             <option value="1">1</option>
             <option value="2">2</option>
@@ -242,14 +272,12 @@ const ReastauUpdate = () => {
           <select
             className="form-control"
             id="villeId"
-            value={selectedVilleId}
+            value={zone && zone.ville && zone.ville.nom}
             onChange={handleVilleChange}
           >
             <option selected="selected">
               {" "}
-              {restaurant.zone &&
-                restaurant.zone.ville &&
-                restaurant.zone.ville.nom}
+              {zone && zone.ville && zone.ville.nom}
             </option>
             {villes.map((ville) => (
               <option key={ville.id} value={ville.nom}>
@@ -264,13 +292,10 @@ const ReastauUpdate = () => {
           <select
             className="form-control"
             id="zoneId"
-            value={selectedZoneId}
+            value={selectedZoneName}
             onChange={handleZoneChange}
           >
-            <option selected="selected">
-              {" "}
-              {restaurant.zone && restaurant.zone.nom}
-            </option>
+            <option selected="selected"> {zone && zone.nom}</option>
 
             {zones.map((zone) => (
               <option key={zone.id} value={zone.id}>
@@ -284,10 +309,10 @@ const ReastauUpdate = () => {
           <select
             className="form-control"
             id="serieId"
-            value={restaurant.serie}
+            value={selectedSerieId}
             onChange={handleSerieChange}
           >
-            <option value="">All series</option>
+            <option selected="selected"> {serie && serie.nom}</option>
             {series.map((serie) => (
               <option key={serie.id} value={serie.id}>
                 {serie.nom}

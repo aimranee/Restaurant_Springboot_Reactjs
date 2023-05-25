@@ -3,19 +3,14 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entities.Restaurant;
 
 import com.example.demo.service.RestaurantService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("api/restaurants")
 public class RestaurantController {
 	@Autowired
@@ -36,13 +31,14 @@ public class RestaurantController {
 		return service.findById(Integer.parseInt(id));
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public void update(@RequestBody Restaurant o) {
 		service.update(o);
 	}
 
-	@DeleteMapping("/delete")
-	public void delete(@RequestBody Restaurant o) {
-		service.delete(o);
+	@DeleteMapping("/delete/{id}")
+	public void delete(@PathVariable int id) {
+		Restaurant r = service.findById(id);
+		service.delete(r);
 	}
 }
