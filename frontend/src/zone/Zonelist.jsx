@@ -5,6 +5,7 @@ import Modal from "react-modal";
 
 const ZoneList = ({ villeId }) => {
   const [zones, setZones] = useState([]);
+  const [zId, setZId] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedZone, setSelectedZone] = useState(null);
   const [villes, setVilles] = useState([]);
@@ -40,6 +41,7 @@ const ZoneList = ({ villeId }) => {
   const handleOpenModal = (zone) => {
     setSelectedZone(zone);
     setNom(zone.nom);
+    setVilled(zone.ville.id);
     setModalIsOpen(true);
   };
 
@@ -49,7 +51,8 @@ const ZoneList = ({ villeId }) => {
   };
 
   const handleSave = () => {
-    axios.put(`http://localhost:8081/api/villes/update/${villed}`, {
+    axios.put(`http://localhost:8081/api/zones/update/${villed}`, {
+      id: zId,
       nom: nom,
     });
     handleCloseModal();
@@ -85,7 +88,10 @@ const ZoneList = ({ villeId }) => {
                 </button>
                 <button
                   className="btn btn-primary"
-                  onClick={() => handleOpenModal(zone)}
+                  onClick={() => {
+                    setZId(zone.id);
+                    handleOpenModal(zone);
+                  }}
                 >
                   Edit
                 </button>
@@ -108,14 +114,17 @@ const ZoneList = ({ villeId }) => {
             />
           </li>
           <li>
-            <label>Ville:</label>
+            <label>Ville: </label>
             <select
               className="form-control"
               id="villeId"
               value={
                 selectedZone && selectedZone.ville && selectedZone.ville.id
               }
-              onChange={(event) => setVilled(event.target.value)}
+              onChange={(event) => {
+                setVilled(event.target.value);
+                setSelectedZone(villed);
+              }}
             >
               {villes &&
                 villes.map((ville) => (

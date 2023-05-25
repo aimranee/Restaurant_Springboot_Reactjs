@@ -11,7 +11,7 @@ import ZoneForm from "./zone/ZoneForm";
 import SerieList from "./serie/Serielist";
 import SerieForm from "./serie/SerieForm";
 import RestaurantList from "./component/Restaurantlist";
-import ZoneByVille from "./component/RestaurantForm";
+import RestaurantForm from "./component/RestaurantForm";
 import ReastauUpdate from "./component/Reastaupdate";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/restaurant" element={<RestaurantList />} />
-          <Route path="/addrestaurant" element={<ZoneByVille />} />
+          <Route path="/addrestaurant" element={<RestaurantForm />} />
           <Route path="/specialites" element={<Specilaitelist />} />
           <Route path="/addspecialite" element={<SpecialiteForm />} />
           <Route path="/villes" element={<Villelist />} />

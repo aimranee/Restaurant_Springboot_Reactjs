@@ -58,7 +58,7 @@ const RestaurantList = () => {
               <td>{Restaurant.zone && Restaurant.zone.nom}</td>
               <td>
                 <Link
-                  className="btn btn-warning ml-2"
+                  className="btn btn-warning l-2m"
                   to={`/editresto/${Restaurant.id}`}
                 >
                   Edit
