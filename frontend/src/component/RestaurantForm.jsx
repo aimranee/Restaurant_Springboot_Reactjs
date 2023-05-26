@@ -94,6 +94,12 @@ const ReastauForm = () => {
         close: timeClose + ":00",
         longtitude: longitude,
         lattitude: latitude,
+        specialites: [
+          {
+            id: 3,
+            nom: "sssssssssss",
+          },
+        ],
         Weekend: concatenatedString,
         serie: {
           id: selectedSerieId,
@@ -180,6 +186,8 @@ const ReastauForm = () => {
           <div className="col-md-6">
             <br />
             <div className="form-group">
+              <label htmlFor="villeId">Longitude :</label>
+
               <input
                 type="number"
                 className="form-control"
@@ -194,6 +202,8 @@ const ReastauForm = () => {
             <br />
 
             <div className="form-group">
+              <label htmlFor="villeId">Latitude:</label>
+
               <input
                 type="number"
                 className="form-control"
@@ -280,6 +290,7 @@ const ReastauForm = () => {
                 ))}
               </select>
             </div>
+            <br />
           </div>
           <div className="col-md-12">
             <div className="form-group">

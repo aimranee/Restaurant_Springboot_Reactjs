@@ -45,7 +45,10 @@ function Header() {
 const Footer = () => {
   return (
     <div>
-      <footer class="bg-light text-center py-3 mt-4">
+      <footer
+        class="bg-light text-center py-3 mt-4"
+        style={{ bottom: 0, position: "fixed" }}
+      >
         <div class="container">
           <p>&copy; 2023 Your Company. All rights reserved.</p>
         </div>

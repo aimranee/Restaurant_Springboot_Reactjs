@@ -76,6 +76,14 @@ const RestaurantList = () => {
                           >
                             Delete
                           </button>
+                          <b> </b>
+
+                          <Link
+                            className="btn btn-warning ml-2"
+                            to={`/map/${Restaurant.id}`}
+                          >
+                            Map
+                          </Link>
                         </td>
                       </tr>
                     ))}

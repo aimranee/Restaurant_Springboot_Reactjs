@@ -164,6 +164,8 @@ const ReastauUpdate = () => {
           </div>
           <div className="col-md-6">
             <div className="form-group">
+              <label htmlFor="adresse">Adresse du restaurant:</label>
+
               <input
                 type="text"
                 placeholder="Adresse"
@@ -179,44 +181,19 @@ const ReastauUpdate = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
+              <label htmlFor="villeId">Sélectionnez une Heure Ouvrir :</label>
               <input
-                type="number"
+                type="time"
                 className="form-control"
-                placeholder="Longitude"
-                id="longitude"
-                onChange={(event) => setLongitude(event.target.value)}
-                value={longitude}
+                placeholder="Latitude"
+                id="heur_close"
+                value={timeOpen}
+                onChange={handleTimeOpen}
               />
             </div>
           </div>
-          <div className="form-group">
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Latitude"
-              id="latitude"
-              value={latitude}
-              onChange={(event) => {
-                setLatitude(event.target.value);
-              }}
-            />
-          </div>
-        </div>
-        <div className="col-md-6">
-          <br />
-          <div className="form-group">
-            <label htmlFor="villeId">Sélectionnez une Heure Ouvrir :</label>
-            <input
-              type="time"
-              className="form-control"
-              placeholder="Latitude"
-              id="heur_close"
-              value={timeOpen}
-              onChange={handleTimeOpen}
-            />
-          </div>
+
           <div className="col-md-6">
-            <br />
             <div className="form-group">
               <label htmlFor="villeId">Sélectionnez une heure Fermer :</label>
               <input
@@ -228,13 +205,67 @@ const ReastauUpdate = () => {
               />
             </div>
           </div>
-        </div>
-        <br />
+          <div className="col-md-6">
+            <br />
 
+            <div className="form-group">
+              <label htmlFor="villeId">Longitude :</label>
+
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Longitude"
+                id="longitude"
+                onChange={(event) => setLongitude(event.target.value)}
+                value={longitude}
+              />
+            </div>
+          </div>
+
+          <div className="col-md-6">
+            <br />
+
+            <div className="form-group">
+              <label htmlFor="villeId">Latitude:</label>
+
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Latitude"
+                id="latitude"
+                value={latitude}
+                onChange={(event) => {
+                  setLatitude(event.target.value);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        <br />
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="villeId">Select a city:</label>
+              <label htmlFor="Rang">Sélectionnez un rang :</label>
+              <select
+                className="form-control"
+                id="rangId"
+                value={rang}
+                onChange={handleRangChange}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <br />
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="villeId">Sélectionnez un ville:</label>
+
               <select
                 className="form-control"
                 id="villeId"
@@ -255,7 +286,8 @@ const ReastauUpdate = () => {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="zoneId">Select a zone:</label>
+              <label htmlFor="zoneId">Sélectionnez un zone:</label>
+
               <select
                 className="form-control"
                 id="zoneId"
@@ -275,7 +307,7 @@ const ReastauUpdate = () => {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="serieId">Select a serie:</label>
+              <label htmlFor="serieId">Sélectionnez un serie:</label>
               <select
                 className="form-control"
                 id="serieId"
@@ -292,24 +324,7 @@ const ReastauUpdate = () => {
             </div>
             <br />
           </div>
-          <div className="col-md-6">
-            <div className="form-group">
-              <label htmlFor="Rang">Sélectionnez un rang :</label>
-              <select
-                className="form-control"
-                id="rangId"
-                value={rang}
-                onChange={handleRangChange}
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </div>
-            <br />
-          </div>
+
           <div className="col-md-12">
             <div className="form-group">
               <label htmlFor="jrouverture">Jours d'ouverture:</label>
@@ -351,7 +366,7 @@ const ReastauUpdate = () => {
         </div>
         <br />
         <button type="submit" className="btn btn-primary">
-          Add Restaurant
+          UPDATE Restaurant
         </button>
       </form>
     </div>

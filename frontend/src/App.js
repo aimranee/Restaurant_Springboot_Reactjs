@@ -13,6 +13,7 @@ import SerieForm from "./serie/SerieForm";
 import RestaurantList from "./component/Restaurantlist";
 import RestaurantForm from "./component/RestaurantForm";
 import ReastauUpdate from "./component/Reastaupdate";
+import Map from "./component/mapdetails"
 
 function App() {
   //<ResponsiveAppBar/>
@@ -35,6 +36,7 @@ function App() {
           <Route path="/addzone" element={<ZoneForm />} />
           <Route path="/editzone" element={<ZoneForm />} />
           <Route path="/editresto/:id" element={<ReastauUpdate />} />
+          <Route path="/map/:id" element={<Map />} />
         </Routes>
         <Footer />
       </Router>
