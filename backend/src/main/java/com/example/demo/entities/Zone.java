@@ -18,7 +18,7 @@ public class Zone {
 	private Ville ville;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "zone", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "zone", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Restaurant> restaurants;
 	
 	public int getId() {

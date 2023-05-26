@@ -59,89 +59,104 @@ const ZoneList = ({ villeId }) => {
   };
 
   return (
-    <div>
-      <h2>Zones</h2>
-      <Link to={`/addzone`} className="btn btn-primary">
-        Add Zone
-      </Link>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Ville</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {zones.map((zone) => (
-            <tr key={zone.id}>
-              <td>{zone.id}</td>
-              <td>{zone.nom}</td>
-              <td>{zone.ville.nom}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(zone.id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    setZId(zone.id);
-                    handleOpenModal(zone);
-                  }}
-                >
-                  Edit
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal}>
-        <h3>Modification de la zone</h3>
-        <ul>
-          <li>
-            <label>Nom de la zone:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="nom"
-              value={nom}
-              onChange={(event) => setNom(event.target.value)}
-            />
-          </li>
-          <li>
-            <label>Ville: </label>
-            <select
-              className="form-control"
-              id="villeId"
-              value={
-                selectedZone && selectedZone.ville && selectedZone.ville.id
-              }
-              onChange={(event) => {
-                setVilled(event.target.value);
-                setSelectedZone(villed);
-              }}
-            >
-              {villes &&
-                villes.map((ville) => (
-                  <option key={ville.id} value={ville.id}>
-                    {ville.nom}
-                  </option>
-                ))}
-            </select>
-          </li>
-        </ul>
-        <button className="btn btn-primary" onClick={handleCloseModal}>
-          Annuler
-        </button>
-        <button className="btn btn-success" onClick={handleSave}>
-          Sauvegarder
-        </button>
-      </Modal>
+    <div class="mt-4">
+      <div class="container">
+        <div class="card">
+          <div class="card-header">
+            <h2>Zones List</h2>
+            <a class="btn btn-primary mb-3" href="/addzone">
+              Ajouter Zone
+            </a>
+            <div class="table-responsive">
+              <div class="container">
+                <table class="table table-bordered table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Ville</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {zones.map((zone) => (
+                      <tr key={zone.id}>
+                        <td>{zone.id}</td>
+                        <td>{zone.nom}</td>
+                        <td>{zone.ville.nom}</td>
+                        <td>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => handleDelete(zone.id)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                              setZId(zone.id);
+                              handleOpenModal(zone);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal}>
+                  <h3>Modification de la zone</h3>
+                  <ul>
+                    <li>
+                      <label>Nom de la zone:</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="nom"
+                        value={nom}
+                        onChange={(event) => setNom(event.target.value)}
+                      />
+                    </li>
+                    <li>
+                      <label>Ville: </label>
+                      <select
+                        className="form-control"
+                        id="villeId"
+                        value={
+                          selectedZone &&
+                          selectedZone.ville &&
+                          selectedZone.ville.id
+                        }
+                        onChange={(event) => {
+                          setVilled(event.target.value);
+                          setSelectedZone(villed);
+                        }}
+                      >
+                        {villes &&
+                          villes.map((ville) => (
+                            <option key={ville.id} value={ville.id}>
+                              {ville.nom}
+                            </option>
+                          ))}
+                      </select>
+                    </li>
+                  </ul>
+                  <button
+                    className="btn btn-sm btn-warning"
+                    onClick={handleCloseModal}
+                  >
+                    Annuler
+                  </button>
+                  <button className="btn btn-sm btn-dange" onClick={handleSave}>
+                    Sauvegarder
+                  </button>
+                </Modal>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -42,45 +42,55 @@ const VillesList = () => {
   };
 
   return (
-    <div>
-      <h2>Ville List</h2>
-      <a class="btn btn-success" href="/addville">
-        Ajouter Ville
-      </a>
-      <table class="table table-bordered ">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider ">
-          {villes.map((ville) => (
-            <tr key={ville.id}>
-              <td>{ville.id}</td>
-              <td>{ville.nom}</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  onClick={() => handleEdit(ville.id)}
-                >
-                  Edit
-                </button>
-                <b> </b>
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  onClick={() => handleDelete(ville.id)}
-                >
-                  Deleter
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div class="mt-4">
+      <div class="container">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Ville List</h2>
+            <a class="btn btn-primary mb-3" href="/addville">
+              Ajouter Ville
+            </a>
+            <div class="table-responsive">
+              <div class="container">
+                <table class="table table-bordered table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="">
+                    {villes.map((ville) => (
+                      <tr key={ville.id}>
+                        <td>{ville.id}</td>
+                        <td>{ville.nom}</td>
+                        <td>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-warning"
+                            onClick={() => handleEdit(ville.id)}
+                          >
+                            Edit
+                          </button>
+                          <b> </b>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            onClick={() => handleDelete(ville.id)}
+                          >
+                            Deleter
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

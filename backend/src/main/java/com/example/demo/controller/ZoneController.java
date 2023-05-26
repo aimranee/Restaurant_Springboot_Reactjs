@@ -43,9 +43,12 @@ public class ZoneController {
 		service.save(o);
 	}
 
-	@DeleteMapping("/delete")
-	public void delete(@RequestBody Zone o) {
-		service.delete(o);
+	@DeleteMapping("/delete/{id}")
+	public void delete(@PathVariable int id) {
+		Zone exist = service.findById(id);
+		if (exist != null) {
+			service.delete(exist);
+		}
 	}
 
 	@GetMapping("/ville/{villeNom}")

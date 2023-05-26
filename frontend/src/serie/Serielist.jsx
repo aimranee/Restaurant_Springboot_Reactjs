@@ -42,45 +42,53 @@ const SerieList = () => {
   };
 
   return (
-    <div>
-      <h2>serie List</h2>
-      <a class="btn btn-success" href="/addserie">
-        Ajouter serie
-      </a>
-      <table class="table table-bordered ">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider ">
-          {series.map((serie) => (
-            <tr key={serie.id}>
-              <td>{serie.id}</td>
-              <td>{serie.nom}</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  onClick={() => handleEdit(serie.id)}
-                >
-                  Edit
-                </button>
-                <b> </b>
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  onClick={() => handleDelete(serie.id)}
-                >
-                  Deleter
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div class="mt-4">
+      <div class="container">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">serie List</h2>
+            <a class="btn btn-primary mb-3" href="/addserie">
+              Ajouter serie
+            </a>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="">
+                  {series.map((serie) => (
+                    <tr key={serie.id}>
+                      <td>{serie.id}</td>
+                      <td>{serie.nom}</td>
+                      <td>
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-warning"
+                          onClick={() => handleEdit(serie.id)}
+                        >
+                          Edit
+                        </button>
+                        <b> </b>
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-danger"
+                          onClick={() => handleDelete(serie.id)}
+                        >
+                          Deleter
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
