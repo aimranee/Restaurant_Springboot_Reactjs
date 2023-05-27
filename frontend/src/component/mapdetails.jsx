@@ -35,11 +35,9 @@ const GoogleMapComponent = ({ google }) => {
             lat: data.longtitude,
             lng: data.lattitude,
           };
-console.log(coordinates);
           setCoords([coordinates]);
           setInitialCenter(coordinates);
 
-          console.log(coordinates);
         } else {
           // Handle the case when data does not have the expected properties
           console.error("Invalid data structure:", data);

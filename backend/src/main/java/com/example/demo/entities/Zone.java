@@ -39,7 +39,6 @@ public class Zone {
 	public void setVille(Ville ville) {
 		this.ville = ville;
 	}
-	
 	public List<Restaurant> getRestaurants() {
 		return restaurants;
 	}
